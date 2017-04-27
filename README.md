@@ -12,6 +12,7 @@ DateTime 静态方法也类似 Date，只是返回的是 DateTime对象
 功能参考 XDate
 
 DateTime.prototype = {
+    clone
     toDate
     format
     
