@@ -1,3 +1,9 @@
+const MILLISECONDS = 1000,
+    MINUTE_MILLISECONDS = 60 * MILLISECONDS,
+    HOUR_MILLISECONDS = 60 * MINUTE_MILLISECONDS,
+    DAY_MILLISECONDS = 24 * HOUR_MILLISECONDS,
+    WEEK_MILLISECONDS = 7 * DAY_MILLISECONDS;
+
 class DateTime extends Date {
     static isLeapYear(year) {
         return (years % 4 == 0 && years % 100 != 0) || years % 400 == 0;
@@ -58,24 +64,23 @@ class DateTime extends Date {
         this.addMilliseconds(diffMilliseconds);
     }
     addWeeks(weeks) {
-        this.addMilliseconds(weeks * 604800000);
+        this.addMilliseconds(weeks * WEEK_MILLISECONDS);
     }
     addDays(days) {
-        this.addMilliseconds(days * 86400000);
+        this.addMilliseconds(days * DAY_MILLISECONDS);
     }
     addHours(hours) {
-        this.addMilliseconds(hours * 3600000);
+        this.addMilliseconds(hours * HOUR_MILLISECONDS);
     }
     addMinutes(minutes) {
-        this.addMilliseconds(minutes * 60000);
+        this.addMilliseconds(minutes * MINUTE_MILLISECONDS);
     }
     addSeconds(seconds) {
-        this.addMilliseconds(seconds * 1000);
+        this.addMilliseconds(seconds * MILLISECONDS);
     }
     addMilliseconds(milliseconds) {
         this.setTime(this.getTime() + milliseconds);
     }
-    // 所有的diff都返回的是整数差额
     diffYears(date) {
         return this.getFullYear() - date.getFullYear();
     }
@@ -83,21 +88,32 @@ class DateTime extends Date {
         return this.diffYears(date) * 12 + this.getMonth() - date.getMonth();
     }
     diffWeeks(date) {
-        return Math.floor(this.diffMilliseconds(date) / 604800000);
+        return diff(this, date, WEEK_MILLISECONDS);
     }
     diffDays(date) {
-        return Math.floor(this.diffMilliseconds(date) / 86400000);
+        return diff(this, date, DAY_MILLISECONDS);
     }
     diffHours(date) {
-        return Math.floor(this.diffMilliseconds(date) / 3600000);
+        return diff(this, date, HOUR_MILLISECONDS);
     }
     diffMinutes(date) {
-        return Math.floor(this.diffMilliseconds(date) / 60000);
+        return diff(this, date, MINUTE_MILLISECONDS);
     }
     diffSeconds(date) {
-        return Math.floor(this.diffMilliseconds(date) / 1000);
+        return diff(this, date, MILLISECONDS);
     }
     diffMilliseconds(date) {
-        return this.getTime() - date.getTime();
+        return diff(this, date, 1);
     }
 }
+
+function diff(date1, date2, unit) {
+    let offset = date1.getTimezoneOffset() * MINUTE_MILLISECONDS;
+    return Math.floor((date1.getTime() - offset) / unit) - Math.floor((date2.getTime() - offset) / unit)
+}
+
+DateTime.MILLISECONDS = MILLISECONDS;
+DateTime.MINUTE_MILLISECONDS = MINUTE_MILLISECONDS;
+DateTime.HOUR_MILLISECONDS = HOUR_MILLISECONDS;
+DateTime.DAY_MILLISECONDS = DAY_MILLISECONDS;
+DateTime.WEEK_MILLISECONDS = WEEK_MILLISECONDS;
