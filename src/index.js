@@ -4,6 +4,11 @@ const MILLISECONDS = 1000,
     DAY_MILLISECONDS = 24 * HOUR_MILLISECONDS,
     WEEK_MILLISECONDS = 7 * DAY_MILLISECONDS;
 
+function diff(date1, date2, unit) {
+    let offset = date1.getTimezoneOffset() * MINUTE_MILLISECONDS;
+    return Math.floor((date1.getTime() - offset) / unit) - Math.floor((date2.getTime() - offset) / unit)
+}
+
 class DateTime extends Date {
     static isLeapYear(year) {
         return (years % 4 == 0 && years % 100 != 0) || years % 400 == 0;
@@ -107,13 +112,10 @@ class DateTime extends Date {
     }
 }
 
-function diff(date1, date2, unit) {
-    let offset = date1.getTimezoneOffset() * MINUTE_MILLISECONDS;
-    return Math.floor((date1.getTime() - offset) / unit) - Math.floor((date2.getTime() - offset) / unit)
-}
-
 DateTime.MILLISECONDS = MILLISECONDS;
 DateTime.MINUTE_MILLISECONDS = MINUTE_MILLISECONDS;
 DateTime.HOUR_MILLISECONDS = HOUR_MILLISECONDS;
 DateTime.DAY_MILLISECONDS = DAY_MILLISECONDS;
 DateTime.WEEK_MILLISECONDS = WEEK_MILLISECONDS;
+
+export default DateTime;
