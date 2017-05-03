@@ -45,7 +45,7 @@ class DateTime extends Date {
     getYearDays() {
         return DateTime.getYearDays(this.getFullYear());
     }
-    addYears(years) {
+    addYear(years) {
         let year = this.getFullYear(),
             month = this.getMonth(),
             day = this.getDate(),
@@ -54,9 +54,9 @@ class DateTime extends Date {
             maxDay = DateTime.getMonthDays(toYear, toMonth),
             toDay = day > maxDay ? maxDay : day,
             diffMilliseconds = Date.UTC(toYear, toMonth, toDay) - Date.UTC(year, month, day);
-        this.addMilliseconds(diffMilliseconds);
+        this.addMillisecond(diffMilliseconds);
     }
-    addMonths(months) {
+    addMonth(months) {
         let year = this.getFullYear(),
             month = this.getMonth(),
             day = this.getDate();
@@ -66,48 +66,48 @@ class DateTime extends Date {
             maxDay = DateTime.getMonthDays(toYear, toMonth),
             toDay = day > maxDay ? maxDay : day,
             diffMilliseconds = Date.UTC(toYear, toMonth, toDay) - Date.UTC(year, month, day);
-        this.addMilliseconds(diffMilliseconds);
+        this.addMillisecond(diffMilliseconds);
     }
-    addWeeks(weeks) {
-        this.addMilliseconds(weeks * WEEK_MILLISECONDS);
+    addWeek(weeks) {
+        this.addMillisecond(weeks * WEEK_MILLISECONDS);
     }
-    addDays(days) {
-        this.addMilliseconds(days * DAY_MILLISECONDS);
+    addDay(days) {
+        this.addMillisecond(days * DAY_MILLISECONDS);
     }
-    addHours(hours) {
-        this.addMilliseconds(hours * HOUR_MILLISECONDS);
+    addHour(hours) {
+        this.addMillisecond(hours * HOUR_MILLISECONDS);
     }
-    addMinutes(minutes) {
-        this.addMilliseconds(minutes * MINUTE_MILLISECONDS);
+    addMinute(minutes) {
+        this.addMillisecond(minutes * MINUTE_MILLISECONDS);
     }
-    addSeconds(seconds) {
-        this.addMilliseconds(seconds * MILLISECONDS);
+    addSecond(seconds) {
+        this.addMillisecond(seconds * MILLISECONDS);
     }
-    addMilliseconds(milliseconds) {
+    addMillisecond(milliseconds) {
         this.setTime(this.getTime() + milliseconds);
     }
-    diffYears(date) {
+    diffYear(date) {
         return this.getFullYear() - date.getFullYear();
     }
-    diffMonths(date) {
-        return this.diffYears(date) * 12 + this.getMonth() - date.getMonth();
+    diffMonth(date) {
+        return this.diffYear(date) * 12 + this.getMonth() - date.getMonth();
     }
-    diffWeeks(date) {
+    diffWeek(date) {
         return diff(this, date, WEEK_MILLISECONDS);
     }
-    diffDays(date) {
+    diffDay(date) {
         return diff(this, date, DAY_MILLISECONDS);
     }
-    diffHours(date) {
+    diffHour(date) {
         return diff(this, date, HOUR_MILLISECONDS);
     }
-    diffMinutes(date) {
+    diffMinute(date) {
         return diff(this, date, MINUTE_MILLISECONDS);
     }
-    diffSeconds(date) {
+    diffSecond(date) {
         return diff(this, date, MILLISECONDS);
     }
-    diffMilliseconds(date) {
+    diffMillisecond(date) {
         return diff(this, date, 1);
     }
 }
