@@ -3,6 +3,7 @@ const MILLISECONDS = 1000,
     HOUR_MILLISECONDS = 60 * MINUTE_MILLISECONDS,
     DAY_MILLISECONDS = 24 * HOUR_MILLISECONDS,
     WEEK_MILLISECONDS = 7 * DAY_MILLISECONDS,
+    MONTH_DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
     WEEK_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
     MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
@@ -36,10 +37,10 @@ class DateTime extends Date {
     }
     // end 快捷日期，好像没啥用
     static isLeapYear(year) {
-        return (years % 4 == 0 && years % 100 != 0) || years % 400 == 0;
+        return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
     }
     static getMonthDays(year, month) {
-        let days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
+        let days = MONTH_DAYS[month];
         return month === 1 && DateTime.isLeapYear(year) ? days + 1 : days;
     }
     static getYearDays(year) {
@@ -66,8 +67,8 @@ class DateTime extends Date {
                 case 'MMMM': return MONTH_NAMES[date.getMonth()];
                 case 'd': return date.getDate();
                 case 'dd': return date.getDate().toString().padStart(2, '0');
-                // case 'D': return 365;
-                // case 'DDD': return 365;
+                case 'D': return MONTH_DAYS.slice(0, date.getMonth()).reduce((days, day) => (days + day), +date.isLeapYear()) + date.getDate();
+                case 'DDD': return (MONTH_DAYS.slice(0, date.getMonth()).reduce((days, day) => (days + day), +date.isLeapYear()) + date.getDate()).toString().padStart(3, '0');
                 case 'e': return date.getDay();
                 case 'ee': return WEEK_NAMES[date.getDay()].slice(0, 2);
                 case 'eee': return WEEK_NAMES[date.getDay()].slice(0, 3);
@@ -91,7 +92,6 @@ class DateTime extends Date {
                 case 'SSS': return date.getMilliseconds().toString().padStart(3, '0');
                 case 'a': return date.getHours() < 12 ? 'am' : 'pm';
                 case 'A': return date.getHours() < 12 ? 'AM' : 'PM';
-                // case 'DDD': return '年的第几天';
                 // case 'w': return '年的第几周';
                 // case 'W': return '月的第几周';
                 // case 'z': return '时区';
@@ -118,6 +118,9 @@ class DateTime extends Date {
     }
     getYearDays() {
         return DateTime.getYearDays(this.getFullYear());
+    }
+    isLeapYear() {
+        return DateTime.isLeapYear(this.getFullYear());
     }
     addYear(years = 1) {
         let year = this.getFullYear(),
