@@ -1,17 +1,13 @@
 # DateTime
 
-DateTime 静态方法也类似 Date，只是返回的是 DateTime对象
-    now
-    UTC
-    parse
-    getDays(year [, month])
-    getDaysInMonth(year, month)
-    getDaysInYear(year)
-
-DateTime.prototype = {
-    clone
-    toDate
-    format
+静态方法等同类似 Date 对象
+    now() === Date.now()
+    UTC() === Date.UTC()
+    parse === Date.parse() // 区别是返回 DateTime 对象
+    isLeapYear(year) // 判断是否是瑞年
+    getMonthDays(year, month) // 指定月份包含的天数
+    getYearDays(year) // 指定年份包含的天数
+    format(date, formatString) // 使用格式规则格式化日期
         y: 年份 1(0001) 2017(2017)
         yy: 年份的后两位（着实没有用处），不够两位补零 01(0001) 17(2017)
         yyyy: 年份的四位表示 0001(0001) 2017(2017)
@@ -21,8 +17,8 @@ DateTime.prototype = {
         MMMM: January ... December
         d: 1 ... 31
         dd: 01 ... 31
-        <!--D: 1 ... 365-->
-        <!--DDD: 001 ... 365-->
+        D: 1 ... 365
+        DDD: 001 ... 365
         e: 星期 0 ... 6
         ee: Su ... Sa
         eee: Sun ... Sat
@@ -46,29 +42,30 @@ DateTime.prototype = {
         SSS: 三位毫秒表示 00 ... 999 （567）
         a: am pm
         A: AM PM
-    
-    addYears // 自动处理溢出
-    addMonths // 自动处理溢出，例如：7月31加一个月为8月30
-    addWeeks
-    addDays
-    addHours
-    addMinutes
-    addSeconds
-    addMilliseconds
 
-    diffYears
-    diffMonths
-    diffWeeks
-    diffDays
-    diffHours
-    diffMinutes
-    diffSeconds
-    diffMilliseconds
+实例方法：
 
-    getMonthDays
-    getYearDays
+    format(formatString) // 等同于 DateTime.format(this, formatString)
+    addYear(years) // 自动处理溢出
+    addMonth(months) // 自动处理溢出，例如：7月31加一个月为8月30
+    addWeek(weeks)
+    addDay(days)
+    addHour(hours)
+    addMinute(minutes)
+    addSecond(seconds)
+    addMillisecond(milliseconds)
 
-    ...
+    // 返回相差，忽略余数范围
+    diffYear(date) // 返回相差年（2016-12-31 到 2017-01-01 也是一年）
+    diffMonth(date) // 返回相差月
+    diffWeek(date) 返回相差周？
+    diffDay(date) 返回相差天
+    diffHour(date) 返回相差小时
+    diffMinute(date) 返回相差分钟
+    diffSecond(date) 返回相差秒
+    diffMillisecond(date) 返回相差毫秒
+
+    getMonthDays() // 当月包含的天数
+    getYearDays() // 当年包含的天数
     getWeekCalendar //  返回 DateTime 对象的周视图数组
     getMonthCalendar // 返回 DateTime 对象的月视图二维数组
-}
